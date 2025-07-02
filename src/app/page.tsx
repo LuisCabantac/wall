@@ -207,6 +207,7 @@ export default function Home() {
                   />
                   <button
                     type="button"
+                    disabled={isSubmitting}
                     onClick={() => {
                       setFilePreview(null);
                       setSelectedFile(null);
