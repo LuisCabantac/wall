@@ -19,6 +19,7 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Home() {
         .order("created_at", { ascending: false });
 
       if (data) setPosts(data as Post[]);
-      if (error) console.error("Error fetching posts:", error);
+      if (error) setError("Failed to load posts. Please refresh the page.");
     };
 
     fetchInitialPosts();
@@ -77,6 +78,7 @@ export default function Home() {
     if (message.length > MAX_CHARACTERS) return;
 
     setIsSubmitting(true);
+    setError(null); // Clear any previous errors
     try {
       let imageUrl = null;
 
@@ -85,7 +87,7 @@ export default function Home() {
         const result = await uploadImage(selectedFile, fileName);
 
         if ("error" in result) {
-          console.error("Error uploading image:", result.error);
+          setError("Failed to upload image. Please try again.");
           return;
         }
 
@@ -100,8 +102,8 @@ export default function Home() {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-    } catch (error) {
-      console.error("Error creating post:", error);
+    } catch {
+      setError("Failed to create post. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -177,10 +179,18 @@ export default function Home() {
                   className="w-full p-2 border border-[#ccc] rounded resize-none focus:outline-none focus:border-[#3b5998]"
                   placeholder="What's on your mind?"
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={(e) => {
+                    setMessage(e.target.value);
+                    if (error) setError(null);
+                  }}
                   rows={3}
                 />
               </div>
+              {error && (
+                <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
               {filePreview && (
                 <div className="mb-2 inline-block relative">
                   <img
