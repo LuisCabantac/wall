@@ -122,17 +122,21 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pb-8 bg-[#e9ebee] font-sans text-[#1d2129]">
-      <div className="bg-[#3b5998] h-12 flex items-center px-8 text-white">
-        <span className="font-bold text-2xl tracking-tight mr-8">Wall</span>
-        <div className="ml-auto flex items-center gap-4">
-          <span className="font-semibold">John Luis Cabantac</span>
+      <div className="bg-[#3b5998] h-12 flex items-center px-4 sm:px-8 text-white">
+        <span className="font-bold text-xl sm:text-2xl tracking-tight mr-4 sm:mr-8">
+          Wall
+        </span>
+        <div className="ml-auto flex items-center gap-2 sm:gap-4">
+          <span className="font-semibold text-sm sm:text-base">
+            John Luis Cabantac
+          </span>
         </div>
       </div>
-      <div className="flex max-w-6xl mx-auto mt-6 gap-6">
-        <aside className="w-64">
+      <div className="flex flex-col lg:flex-row max-w-6xl mx-auto mt-4 sm:mt-6 gap-4 sm:gap-6 px-4 sm:px-0">
+        <aside className="w-full lg:w-64 order-2 lg:order-1">
           <div className="bg-white rounded border border-[#ccc] p-4">
             <div className="mb-4">
-              <div className="w-full aspect-square bg-[#d8dfea] rounded mb-2 overflow-hidden flex items-center justify-center">
+              <div className="w-full aspect-square bg-[#d8dfea] rounded mb-2 overflow-hidden flex items-center justify-center max-w-[200px] mx-auto lg:mx-0">
                 <Image
                   src="/profile-avatar.jpg"
                   alt="Profile"
@@ -142,7 +146,7 @@ export default function Home() {
                 />
               </div>
             </div>
-            <div className="border-t border-[#eee] pt-2 text-xs">
+            <div className="border-t border-[#eee] pt-2 text-xs text-center lg:text-left">
               <div className="font-bold mb-1">Information</div>
               <div>
                 Networks:
@@ -157,12 +161,14 @@ export default function Home() {
             </div>
           </div>
         </aside>
-        <main className="flex-1">
-          <div className="bg-white rounded border border-[#ccc] p-6">
-            <div className="flex items-center gap-4 mb-2">
-              <h1 className="text-2xl font-bold">John Luis Cabantac</h1>
+        <main className="flex-1 order-1 lg:order-2">
+          <div className="bg-white rounded border border-[#ccc] p-4 sm:p-6">
+            <div className="flex items-center gap-2 sm:gap-4 mb-2">
+              <h1 className="text-xl sm:text-2xl font-bold">
+                John Luis Cabantac
+              </h1>
             </div>
-            <div className="flex gap-4 border-b border-[#ccc] mb-4 text-[#385898] text-sm font-semibold">
+            <div className="flex gap-2 sm:gap-4 border-b border-[#ccc] mb-4 text-[#385898] text-sm font-semibold">
               <a
                 href="#"
                 className="border-b-2 border-[#3b5998] pb-1 text-[#3b5998]"
@@ -176,9 +182,10 @@ export default function Home() {
             >
               <div className="mb-2">
                 <textarea
-                  className="w-full p-2 border border-[#ccc] rounded resize-none focus:outline-none focus:border-[#3b5998]"
+                  className="w-full p-2 border border-[#ccc] rounded resize-none focus:outline-none focus:border-[#3b5998] text-sm sm:text-base"
                   placeholder="What's on your mind?"
                   value={message}
+                  disabled={isSubmitting}
                   onChange={(e) => {
                     setMessage(e.target.value);
                     if (error) setError(null);
@@ -196,7 +203,7 @@ export default function Home() {
                   <img
                     src={filePreview}
                     alt="Preview"
-                    className="max-w-full max-h-64 rounded block"
+                    className="max-w-full max-h-48 sm:max-h-64 rounded block"
                   />
                   <button
                     type="button"
@@ -211,7 +218,7 @@ export default function Home() {
                   </button>
                 </div>
               )}
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-[#666]">Attach:</span>
                   <label className="cursor-pointer">
@@ -226,13 +233,14 @@ export default function Home() {
                     <input
                       type="file"
                       className="hidden"
+                      disabled={isSubmitting}
                       onChange={handleFileChange}
                       ref={fileInputRef}
                       accept="image/*"
                     />
                   </label>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 self-end sm:self-auto">
                   <span
                     className={`text-xs ${
                       message.length > MAX_CHARACTERS
@@ -259,14 +267,14 @@ export default function Home() {
               </div>
             </form>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {posts.map((post) => (
                 <div
                   key={post.id}
                   className="border-b border-[#eee] pb-4 mb-4 last:border-b-0"
                 >
                   <div className="flex gap-3">
-                    <div className="w-10 h-10 overflow-hidden rounded-md">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 overflow-hidden rounded-md flex-shrink-0">
                       <Image
                         src="/profile-avatar.jpg"
                         alt="Profile"
@@ -275,7 +283,7 @@ export default function Home() {
                         className="object-cover w-full h-full"
                       />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <div className="text-sm">
                         <a
                           href="#"
@@ -283,7 +291,7 @@ export default function Home() {
                         >
                           John Luis Cabantac
                         </a>{" "}
-                        {post.message}
+                        <span className="break-words">{post.message}</span>
                       </div>
 
                       {post.image_url && (
@@ -293,7 +301,7 @@ export default function Home() {
                             alt="Post attachment"
                             width={600}
                             height={400}
-                            className="max-w-full rounded max-h-96"
+                            className="max-w-full rounded max-h-64 sm:max-h-96 object-cover"
                           />
                         </div>
                       )}
@@ -307,7 +315,7 @@ export default function Home() {
               ))}
 
               {posts.length === 0 && (
-                <div className="text-center py-6 text-gray-500">
+                <div className="text-center py-6 text-gray-500 text-sm sm:text-base">
                   No posts yet. Be the first to share something!
                 </div>
               )}
