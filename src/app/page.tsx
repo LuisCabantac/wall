@@ -222,13 +222,30 @@ export default function Home() {
                     />
                   </label>
                 </div>
-                <button
-                  type="submit"
-                  className="ml-2 bg-[#5b74a8] text-white px-4 py-1 rounded text-sm font-semibold disabled:opacity-50"
-                  disabled={isSubmitting || (!message.trim() && !selectedFile)}
-                >
-                  {isSubmitting ? "Posting..." : "Share"}
-                </button>
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`text-xs ${
+                      message.length > MAX_CHARACTERS
+                        ? "text-red-500"
+                        : message.length > MAX_CHARACTERS * 0.8
+                        ? "text-orange-500"
+                        : "text-[#666]"
+                    }`}
+                  >
+                    {MAX_CHARACTERS - message.length}
+                  </span>
+                  <button
+                    type="submit"
+                    className="bg-[#5b74a8] text-white px-4 py-1 rounded text-sm font-semibold disabled:opacity-50"
+                    disabled={
+                      isSubmitting ||
+                      (!message.trim() && !selectedFile) ||
+                      message.length > MAX_CHARACTERS
+                    }
+                  >
+                    {isSubmitting ? "Posting..." : "Share"}
+                  </button>
+                </div>
               </div>
             </form>
 
